@@ -76,6 +76,35 @@ const MeditationCenter: React.FC = () => {
     };
   }, []);
 
+  // Move handleMeditationComplete above this useEffect to avoid TS2448 error
+  const handleMeditationComplete = () => {
+    if (!avatar) return;
+
+    const selectedType = meditationTypes.find(t => t.type === meditationType)!;
+    const duration = durations.find(d => d.minutes === selectedDuration)!;
+
+    const session: MeditationSession = {
+      id: `meditation_${Date.now()}`,
+      type: meditationType,
+      duration: selectedDuration,
+      difficulty: duration.difficulty,
+      rewards: selectedType.benefits
+    };
+
+    completeMeditation(session);
+    updateGunas({ sattva: selectedType.benefits.sattva });
+    addNotification(`Meditation completed! +${selectedType.benefits.sattva} Sattva gained`);
+    
+    setIsActive(false);
+    setTimeLeft(selectedDuration * 60);
+    
+    // Stop audio when meditation is complete
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  };
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
     

@@ -15,7 +15,7 @@
     "@types/react-dom": "^18.2.17",
     "@types/three": "^0.158.3",
     "chart.js": "^4.4.0",
-    "framer-motion": "^10.16.16",
+    "framer-motion": "^6.5.1",
     "lucide-react": "^0.294.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

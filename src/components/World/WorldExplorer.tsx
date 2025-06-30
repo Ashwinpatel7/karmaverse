@@ -3,11 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '../../store/gameStore';
 import { Yuga } from '../../types';
 import { Globe, Sun, Cloud, TreePine, Mountain, Waves, Users, Zap, Heart, Shield } from 'lucide-react';
+import TempleList from './TempleList';
+import YugaDetails from './YugaDetails';
 
 const WorldExplorer: React.FC = () => {
-  const { worldState, avatar, transitionYuga, updateKarma, addNotification } = useGameStore();
+  const { worldState, avatar, transitionYuga, updateKarma, updateVirtues, addNotification } = useGameStore();
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showTemples, setShowTemples] = useState(false);
+  const [showYugaDetails, setShowYugaDetails] = useState(false);
 
   const yugaDescriptions = {
     satya: {
@@ -17,7 +21,10 @@ const WorldExplorer: React.FC = () => {
       characteristics: ['Perfect righteousness', 'No suffering or disease', 'Natural abundance', 'Divine communion'],
       duration: '1,728,000 years',
       color: 'from-yellow-200 to-green-200',
-      textColor: 'text-green-800'
+      textColor: 'text-green-800',
+      bgPattern: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23228B22' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+      icon: '🌅',
+      cardStyle: 'border-green-300 shadow-green-200/50'
     },
     treta: {
       name: 'Treta Yuga',
@@ -26,7 +33,10 @@ const WorldExplorer: React.FC = () => {
       characteristics: ['Three-quarters virtue', 'Introduction of rituals', 'Emergence of kingdoms', 'Heroic deeds'],
       duration: '1,296,000 years',
       color: 'from-yellow-100 to-orange-200',
-      textColor: 'text-orange-800'
+      textColor: 'text-orange-800',
+      bgPattern: "url(\"data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ed7611' fill-opacity='0.1'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+      icon: '🌞',
+      cardStyle: 'border-orange-300 shadow-orange-200/50'
     },
     dvapara: {
       name: 'Dvapara Yuga',
@@ -34,8 +44,11 @@ const WorldExplorer: React.FC = () => {
       description: 'Virtue and vice are equally balanced. Knowledge becomes divided and conflicts arise between good and evil.',
       characteristics: ['Half virtue remains', 'Division of knowledge', 'Rise of conflicts', 'Material progress'],
       duration: '864,000 years',
-      color: 'from-orange-100 to-red-200',
-      textColor: 'text-red-800'
+      color: 'from-blue-100 to-purple-200',
+      textColor: 'text-purple-800',
+      bgPattern: "url(\"data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M0 0h20L0 20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+      icon: '🌆',
+      cardStyle: 'border-purple-300 shadow-purple-200/50'
     },
     kali: {
       name: 'Kali Yuga',
@@ -44,18 +57,22 @@ const WorldExplorer: React.FC = () => {
       characteristics: ['Quarter virtue remains', 'Widespread ignorance', 'Material obsession', 'Easy liberation'],
       duration: '432,000 years',
       color: 'from-gray-200 to-gray-400',
-      textColor: 'text-gray-800'
+      textColor: 'text-gray-800',
+      bgPattern: "url(\"data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 5v1H5z'/%3E%3C/g%3E%3C/svg%3E\")",
+      icon: '🌃',
+      cardStyle: 'border-gray-300 shadow-gray-200/50'
     }
   };
 
   const locations = [
     {
       id: 'temple',
-      name: 'Sacred Temple',
+      name: 'Sacred Temples',
       icon: '🏛️',
-      description: 'A place of worship and spiritual learning',
+      description: 'Visit ancient Hindu temples across India',
       benefits: { karma: 10, sattva: 5 },
-      available: true
+      available: true,
+      special: 'temples'
     },
     {
       id: 'forest',
@@ -114,6 +131,27 @@ const WorldExplorer: React.FC = () => {
     addNotification(`Visited ${location.name}: +${location.benefits.karma} karma, +${location.benefits.sattva} sattva`);
     setSelectedLocation(null);
   };
+  
+  const handleTempleVisit = (temple: any) => {
+    if (!avatar) return;
+    
+    updateKarma({
+      id: `temple_${Date.now()}`,
+      action: `Visited ${temple.name}`,
+      karmaChange: temple.benefits.karma,
+      gunaEffect: { sattva: temple.benefits.sattva },
+      timestamp: new Date(),
+      context: `Temple pilgrimage in ${worldState.currentYuga} Yuga`
+    });
+    
+    // Update devotion virtue
+    updateVirtues({
+      devotion: temple.benefits.devotion / 5 // Scale down for balance
+    });
+    
+    addNotification(`Visited ${temple.name}: +${temple.benefits.karma} karma, +${temple.benefits.sattva} sattva, +${temple.benefits.devotion / 5} devotion`);
+    setShowTemples(false);
+  };
 
   const handleYugaTransition = (newYuga: Yuga) => {
     if (newYuga === worldState.currentYuga) return;
@@ -138,7 +176,12 @@ const WorldExplorer: React.FC = () => {
   const currentYuga = yugaDescriptions[worldState.currentYuga];
 
   return (
-    <div className="min-h-screen pt-20 p-6">
+    <div className="min-h-screen pt-20 p-6" style={{ 
+      backgroundImage: currentYuga.bgPattern,
+      backgroundColor: worldState.currentYuga === 'satya' ? '#f0fff4' :
+                      worldState.currentYuga === 'treta' ? '#fffaf0' :
+                      worldState.currentYuga === 'dvapara' ? '#f5f0ff' : '#f5f5f5'
+    }}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -161,7 +204,7 @@ const WorldExplorer: React.FC = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
           >
-            <div className={`spiritual-card p-8 bg-gradient-to-br ${currentYuga.color} relative overflow-hidden`}>
+            <div className={`spiritual-card p-8 bg-gradient-to-br ${currentYuga.color} relative overflow-hidden border ${currentYuga.cardStyle} transition-all duration-500`}>
               {/* Background Pattern */}
               <div className="absolute inset-0 opacity-10">
                 <div className="w-full h-full" style={{
@@ -180,9 +223,7 @@ const WorldExplorer: React.FC = () => {
                     </p>
                   </div>
                   <div className="text-6xl">
-                    {worldState.currentYuga === 'satya' ? '🌅' :
-                     worldState.currentYuga === 'treta' ? '🌞' :
-                     worldState.currentYuga === 'dvapara' ? '🌆' : '🌃'}
+                    {currentYuga.icon}
                   </div>
                 </div>
 
@@ -257,13 +298,20 @@ const WorldExplorer: React.FC = () => {
                 {locations.map((location) => (
                   <motion.div
                     key={location.id}
-                    className={`spiritual-card p-6 cursor-pointer transition-all ${
+                    className={`spiritual-card p-6 cursor-pointer transition-all border ${
                       location.available
-                        ? 'hover:shadow-lg hover:scale-105'
-                        : 'opacity-50 cursor-not-allowed'
+                        ? `hover:shadow-lg hover:scale-105 ${currentYuga.cardStyle}`
+                        : 'opacity-50 cursor-not-allowed border-gray-200'
                     }`}
                     whileHover={location.available ? { y: -5 } : {}}
-                    onClick={() => location.available && setSelectedLocation(location.id)}
+                    onClick={() => {
+                      if (!location.available) return;
+                      if (location.special === 'temples') {
+                        setShowTemples(true);
+                      } else {
+                        setSelectedLocation(location.id);
+                      }
+                    }}
                   >
                     <div className="flex items-center space-x-4">
                       <div className="text-4xl">{location.icon}</div>
@@ -314,13 +362,26 @@ const WorldExplorer: React.FC = () => {
                         : 'border-gray-200 hover:border-saffron-200'
                     } ${isTransitioning ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
-                    <div className="font-medium text-gray-800">{info.name}</div>
-                    <div className="text-xs text-gray-600">{info.title}</div>
+                    <div className="flex items-center">
+                      <span className="text-2xl mr-2">{info.icon}</span>
+                      <div>
+                        <div className="font-medium text-gray-800">{info.name}</div>
+                        <div className="text-xs text-gray-600">{info.title}</div>
+                      </div>
+                    </div>
                   </button>
                 ))}
               </div>
-              <div className="mt-4 text-xs text-gray-500">
-                * Yuga transitions affect world environment and available locations
+              <div className="mt-4 flex justify-between items-center">
+                <div className="text-xs text-gray-500">
+                  * Affects world environment
+                </div>
+                <button 
+                  onClick={() => setShowYugaDetails(true)}
+                  className="text-xs text-saffron-600 hover:text-saffron-700 font-medium"
+                >
+                  Learn More
+                </button>
               </div>
             </div>
 
@@ -468,6 +529,26 @@ const WorldExplorer: React.FC = () => {
           )}
         </AnimatePresence>
 
+        {/* Temple List Modal */}
+        <AnimatePresence>
+          {showTemples && (
+            <TempleList 
+              onClose={() => setShowTemples(false)}
+              onVisit={handleTempleVisit}
+            />
+          )}
+        </AnimatePresence>
+        
+        {/* Yuga Details Modal */}
+        <AnimatePresence>
+          {showYugaDetails && (
+            <YugaDetails 
+              onClose={() => setShowYugaDetails(false)}
+              onTransition={handleYugaTransition}
+            />
+          )}
+        </AnimatePresence>
+        
         {/* Transition Overlay */}
         <AnimatePresence>
           {isTransitioning && (

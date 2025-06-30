@@ -30,7 +30,7 @@ class AIService {
   }
 
   private canMakeRequest(): boolean {
-    return this.requestCount < this.maxRequestsPerDay && this.config.apiKey;
+    return this.requestCount < this.maxRequestsPerDay && Boolean(this.config.apiKey);
   }
 
   private buildSpiritualPrompt(question: string, avatar: Avatar | null): string {

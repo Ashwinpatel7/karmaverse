@@ -7,6 +7,7 @@ import MeditationCenter from './components/Meditation/MeditationCenter';
 import SpiritualJournal from './components/Journal/SpiritualJournal';
 import WorldExplorer from './components/World/WorldExplorer';
 import QuestSystem from './components/Quests/QuestSystem';
+import SpiritualGuide from './components/AI/SpiritualGuide';
 import Navigation from './components/UI/Navigation';
 import './App.css';
 
@@ -43,6 +44,9 @@ function App() {
 
       {/* Navigation */}
       {avatar && <Navigation />}
+      
+      {/* AI Spiritual Guide */}
+      {avatar && <SpiritualGuide />}
 
       {/* Notifications */}
       <AnimatePresence>
@@ -79,7 +83,7 @@ function App() {
 
       {/* Main Content */}
       <main className="relative z-10">
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           <motion.div
             key={currentView}
             initial={{ opacity: 0, y: 20 }}

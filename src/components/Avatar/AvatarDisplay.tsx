@@ -67,7 +67,7 @@ const AvatarDisplay: React.FC<AvatarDisplayProps> = ({
         duration: 2,
         repeat: Infinity,
         repeatType: 'reverse' as const,
-        ease: 'easeInOut'
+        ease: 'easeInOut' as const
       }
     },
     hover: {
@@ -85,7 +85,7 @@ const AvatarDisplay: React.FC<AvatarDisplayProps> = ({
       transition: {
         duration: 3,
         repeat: Infinity,
-        ease: 'easeInOut'
+        ease: 'easeInOut' as const
       }
     }
   };

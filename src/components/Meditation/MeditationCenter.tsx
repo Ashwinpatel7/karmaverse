@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useGameStore } from '../../store/gameStore';
 import { MeditationSession } from '../../types';
 import { Play, Pause, RotateCcw, Volume2, VolumeX } from 'lucide-react';

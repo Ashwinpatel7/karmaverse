@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '../../store/gameStore';
-import { Quest, QuestReward } from '../../types';
-import { Target, Star, Clock, Gift, CheckCircle, Lock, Zap } from 'lucide-react';
+import { Quest } from '../../types';
+import { Target, CheckCircle, Lock } from 'lucide-react';
 
 const QuestSystem: React.FC = () => {
   const { avatar, updateKarma, updateGunas, updateVirtues, addNotification } = useGameStore();

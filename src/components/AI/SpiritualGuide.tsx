@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '../../store/gameStore';
 import { useAI } from '../../hooks/useAI';
-import { MessageCircle, Send, Bot, User, Loader, Sparkles } from 'lucide-react';
+import { MessageCircle, Send, Bot, Loader, Sparkles } from 'lucide-react';
 
 interface Message {
   id: string;

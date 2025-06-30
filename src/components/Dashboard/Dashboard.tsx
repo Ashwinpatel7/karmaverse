@@ -15,7 +15,7 @@ const Dashboard: React.FC = () => {
     updateKarma, 
     updateGunas,
     addNotification,
-    currentDilemma,
+    // currentDilemma,
     setCurrentView
   } = useGameStore();
 

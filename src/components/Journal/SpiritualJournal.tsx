@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '../../store/gameStore';
 import { JournalEntry } from '../../types';
 import { getRandomQuote } from '../../data/scriptures';
-import { Calendar, Heart, Brain, Star, Smile, Frown, Meh, BookOpen, Plus } from 'lucide-react';
+import { Calendar, Star, BookOpen, Plus } from 'lucide-react';
 
 const SpiritualJournal: React.FC = () => {
   const { journalEntries, addJournalEntry, avatar } = useGameStore();

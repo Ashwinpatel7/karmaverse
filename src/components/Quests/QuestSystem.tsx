@@ -10,7 +10,7 @@ const QuestSystem: React.FC = () => {
   const [completedQuests, setCompletedQuests] = useState<string[]>([]);
   const [selectedQuest, setSelectedQuest] = useState<Quest | null>(null);
 
-  const allQuests: Quest[] = [
+  const allQuests: Quest[] = React.useMemo(() => ([
     {
       id: 'daily_meditation',
       title: 'Daily Meditation Practice',
@@ -94,7 +94,7 @@ const QuestSystem: React.FC = () => {
       ],
       yogaPathBonus: 'raja'
     }
-  ];
+  ]), []);
 
   useEffect(() => {
     if (!avatar) return;

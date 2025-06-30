@@ -88,7 +88,7 @@ const MeditationCenter: React.FC = () => {
     }
 
     return () => clearInterval(interval);
-  }, [isActive, timeLeft]);
+  }, [isActive, timeLeft, handleMeditationComplete]);
 
   // Breathing animation cycle
   useEffect(() => {
@@ -105,7 +105,7 @@ const MeditationCenter: React.FC = () => {
       
       return () => clearInterval(breathInterval);
     }
-  }, [isActive, meditationType]);
+  }, [isActive, meditationType, breathingCycle]);
 
   const startMeditation = () => {
     setTimeLeft(selectedDuration * 60);

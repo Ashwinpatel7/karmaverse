@@ -120,7 +120,7 @@ const QuestSystem: React.FC = () => {
     });
 
     setActiveQuests(available);
-  }, [avatar, completedQuests]);
+  }, [avatar, completedQuests, allQuests]);
 
   const handleQuestComplete = (quest: Quest) => {
     if (!avatar) return;

@@ -20,8 +20,5 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "env": {
-    "REACT_APP_AI_API_KEY": "@react_app_ai_api_key"
-  }
+  ]
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '../../store/gameStore';
 import { Yuga } from '../../types';
@@ -12,6 +12,11 @@ const WorldExplorer: React.FC = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showTemples, setShowTemples] = useState(false);
   const [showYugaDetails, setShowYugaDetails] = useState(false);
+  const [yugaAnimation, setYugaAnimation] = useState<string | null>(null);
+
+  // Audio refs for Yuga music
+  const omChantingRef = useRef<HTMLAudioElement>(null);
+  const whySoSeriousRef = useRef<HTMLAudioElement>(null);
 
   const yugaDescriptions = {
     satya: {
@@ -155,8 +160,23 @@ const WorldExplorer: React.FC = () => {
 
   const handleYugaTransition = (newYuga: Yuga) => {
     if (newYuga === worldState.currentYuga) return;
-    
+
     setIsTransitioning(true);
+
+    // Set animation type for the Yuga
+    setYugaAnimation(newYuga);
+
+    // Play the appropriate music
+    if (['satya', 'treta', 'dvapara'].includes(newYuga)) {
+      whySoSeriousRef.current?.pause();
+      whySoSeriousRef.current && (whySoSeriousRef.current.currentTime = 0);
+      omChantingRef.current?.play();
+    } else if (newYuga === 'kali') {
+      omChantingRef.current?.pause();
+      omChantingRef.current && (omChantingRef.current.currentTime = 0);
+      whySoSeriousRef.current?.play();
+    }
+
     setTimeout(() => {
       transitionYuga(newYuga);
       setIsTransitioning(false);
@@ -182,6 +202,10 @@ const WorldExplorer: React.FC = () => {
                       worldState.currentYuga === 'treta' ? '#fffaf0' :
                       worldState.currentYuga === 'dvapara' ? '#f5f0ff' : '#f5f5f5'
     }}>
+      {/* Audio elements for Yuga music */}
+      <audio ref={omChantingRef} src="/One%20minute%20Om%20Chanting.mp3" preload="auto" />
+      <audio ref={whySoSeriousRef} src="/Hans%20Zimmer%20&%20James%20Newton%20Howard%20-%20Why%20So%20Serious_%20(Official%20Audio).mp3" preload="auto" />
+
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -559,13 +583,43 @@ const WorldExplorer: React.FC = () => {
               exit={{ opacity: 0 }}
             >
               <div className="text-center">
-                <motion.div
-                  className="text-8xl mb-4"
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                >
-                  🕉️
-                </motion.div>
+                {/* Yuga-specific animation */}
+                {yugaAnimation === 'satya' && (
+                  <motion.div
+                    className="text-8xl mb-4"
+                    animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    🕉️
+                  </motion.div>
+                )}
+                {yugaAnimation === 'treta' && (
+                  <motion.div
+                    className="text-8xl mb-4"
+                    animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    🔥
+                  </motion.div>
+                )}
+                {yugaAnimation === 'dvapara' && (
+                  <motion.div
+                    className="text-8xl mb-4"
+                    animate={{ scale: [1, 1.05, 1], rotate: [0, 3, -3, 0] }}
+                    transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    ⚔️
+                  </motion.div>
+                )}
+                {yugaAnimation === 'kali' && (
+                  <motion.div
+                    className="text-8xl mb-4"
+                    animate={{ scale: [1, 1.15, 1], rotate: [0, 20, -20, 0] }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    �️
+                  </motion.div>
+                )}
                 <h2 className="text-2xl font-bold text-saffron-700 mb-2">
                   Cosmic Transition
                 </h2>

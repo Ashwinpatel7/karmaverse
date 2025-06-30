@@ -3,6 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from './store/gameStore';
 import Dashboard from './components/Dashboard/Dashboard';
 import AvatarCreation from './components/Avatar/AvatarCreation';
+import MeditationCenter from './components/Meditation/MeditationCenter';
+import SpiritualJournal from './components/Journal/SpiritualJournal';
+import WorldExplorer from './components/World/WorldExplorer';
+import QuestSystem from './components/Quests/QuestSystem';
 import Navigation from './components/UI/Navigation';
 import './App.css';
 
@@ -16,13 +20,13 @@ function App() {
       case 'avatar':
         return <AvatarCreation />;
       case 'meditation':
-        return <div className="p-8 text-center">Meditation Module Coming Soon 🧘‍♂️</div>;
+        return <MeditationCenter />;
       case 'journal':
-        return <div className="p-8 text-center">Journal Module Coming Soon 📖</div>;
+        return <SpiritualJournal />;
       case 'quests':
-        return <div className="p-8 text-center">Quests Module Coming Soon ⚔️</div>;
+        return <QuestSystem />;
       case 'world':
-        return <div className="p-8 text-center">World Explorer Coming Soon 🌍</div>;
+        return <WorldExplorer />;
       default:
         return <Dashboard />;
     }

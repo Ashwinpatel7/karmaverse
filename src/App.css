@@ -1,38 +1,277 @@
+/* Additional custom styles for KarmaVerse */
+
 .App {
-  text-align: center;
+  text-align: left;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Smooth scrolling for the entire app */
+* {
+  scroll-behavior: smooth;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* Custom selection colors */
+::selection {
+  background-color: rgba(237, 118, 17, 0.3);
+  color: rgba(237, 118, 17, 1);
+}
+
+/* Loading spinner for spiritual elements */
+.spiritual-spinner {
+  animation: spiritual-spin 2s linear infinite;
+}
+
+@keyframes spiritual-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Meditation breathing guide */
+.breathing-guide {
+  animation: breathe-cycle 8s ease-in-out infinite;
+}
+
+@keyframes breathe-cycle {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  25% { 
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.3);
+    opacity: 1;
+  }
+  75% { 
+    transform: scale(1.2);
+    opacity: 1;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Karma energy flow animation */
+.karma-flow {
+  position: relative;
+  overflow: hidden;
 }
 
-.App-link {
-  color: #61dafb;
+.karma-flow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(237, 118, 17, 0.3),
+    transparent
+  );
+  animation: karma-flow-animation 3s ease-in-out infinite;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes karma-flow-animation {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
+
+/* Guna balance visualization */
+.guna-sattva {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+}
+
+.guna-rajas {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+.guna-tamas {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+  box-shadow: 0 0 20px rgba(107, 114, 128, 0.3);
+}
+
+/* Yuga transition effects */
+.yuga-satya {
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  color: #065f46;
+}
+
+.yuga-treta {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  color: #92400e;
+}
+
+.yuga-dvapara {
+  background: linear-gradient(135deg, #fed7aa, #fdba74);
+  color: #9a3412;
+}
+
+.yuga-kali {
+  background: linear-gradient(135deg, #f3f4f6, #d1d5db);
+  color: #374151;
+}
+
+/* Sacred geometry patterns */
+.sacred-pattern {
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(237, 118, 17, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 25%, rgba(14, 165, 233, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 25% 75%, rgba(34, 197, 94, 0.1) 0%, transparent 50%);
+}
+
+/* Mantra text styling */
+.mantra-text {
+  font-family: 'Noto Sans Devanagari', serif;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Virtue tree visualization */
+.virtue-branch {
+  position: relative;
+}
+
+.virtue-branch::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, #10b981, #059669);
+  transform: translateX(-50%);
+}
+
+.virtue-leaf {
+  animation: virtue-grow 2s ease-out forwards;
+}
+
+@keyframes virtue-grow {
+  0% {
+    transform: scale(0) rotate(-90deg);
+    opacity: 0;
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    transform: scale(0.8) rotate(-45deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Meditation focus ring */
+.focus-ring {
+  position: relative;
+}
+
+.focus-ring::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 2px solid transparent;
+  border-radius: inherit;
+  background: linear-gradient(45deg, #fbbf24, #f59e0b, #ec4899, #0ea5e9) border-box;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: focus-pulse 3s ease-in-out infinite;
+}
+
+@keyframes focus-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* Dharma wheel rotation */
+.dharma-wheel {
+  animation: dharma-rotation 20s linear infinite;
+}
+
+@keyframes dharma-rotation {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Lotus bloom animation */
+.lotus-bloom {
+  animation: lotus-bloom-animation 4s ease-in-out infinite;
+}
+
+@keyframes lotus-bloom-animation {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+    filter: hue-rotate(0deg);
+  }
+  25% { 
+    transform: scale(1.1) rotate(90deg);
+    filter: hue-rotate(90deg);
+  }
+  50% { 
+    transform: scale(1.2) rotate(180deg);
+    filter: hue-rotate(180deg);
+  }
+  75% { 
+    transform: scale(1.1) rotate(270deg);
+    filter: hue-rotate(270deg);
+  }
+}
+
+/* Responsive design helpers */
+@media (max-width: 768px) {
+  .spiritual-card {
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .mantra-text {
+    font-size: 0.9rem;
+  }
+}
+
+/* Print styles for journal entries */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .spiritual-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #e5e7eb;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .spiritual-card {
+    border: 2px solid #000;
+  }
+  
+  .karma-button {
+    border: 2px solid #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .spiritual-spinner,
+  .breathing-guide,
+  .dharma-wheel,
+  .lotus-bloom {
+    animation: none;
   }
 }

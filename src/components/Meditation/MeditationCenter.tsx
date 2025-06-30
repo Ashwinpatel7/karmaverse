@@ -180,33 +180,9 @@ const MeditationCenter: React.FC = () => {
     }
   };
 
-  const handleMeditationComplete = () => {
-    if (!avatar) return;
-
-    const selectedType = meditationTypes.find(t => t.type === meditationType)!;
-    const duration = durations.find(d => d.minutes === selectedDuration)!;
-
-    const session: MeditationSession = {
-      id: `meditation_${Date.now()}`,
-      type: meditationType,
-      duration: selectedDuration,
-      difficulty: duration.difficulty,
-      rewards: selectedType.benefits
-    };
-
-    completeMeditation(session);
-    updateGunas({ sattva: selectedType.benefits.sattva });
-    addNotification(`Meditation completed! +${selectedType.benefits.sattva} Sattva gained`);
-    
-    setIsActive(false);
-    setTimeLeft(selectedDuration * 60);
-    
-    // Stop audio when meditation is complete
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    }
-  };
+  // ...existing code...
+  // (Removed duplicate handleMeditationComplete declaration)
+  // ...existing code...
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);

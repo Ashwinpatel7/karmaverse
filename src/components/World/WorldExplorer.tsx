@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '../../store/gameStore';
 import { Yuga } from '../../types';
-import { Globe, Sun, Cloud, TreePine, Mountain, Waves, Users, Zap, Heart, Shield } from 'lucide-react';
+import { Sun, Mountain } from 'lucide-react';
 import TempleList from './TempleList';
 import YugaDetails from './YugaDetails';
 

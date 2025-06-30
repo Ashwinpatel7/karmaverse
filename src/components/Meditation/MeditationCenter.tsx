@@ -55,12 +55,12 @@ const MeditationCenter: React.FC = () => {
   ];
 
   // Breathing cycle timing (4-7-8 technique)
-  const breathingCycle = {
+  const breathingCycle = React.useMemo(() => ({
     inhale: 4000,
     hold: 7000,
     exhale: 8000,
     pause: 1000
-  };
+  }), []);
 
   // Initialize audio on component mount
   useEffect(() => {
@@ -77,7 +77,7 @@ const MeditationCenter: React.FC = () => {
   }, []);
 
   // Move handleMeditationComplete above this useEffect to avoid TS2448 error
-  const handleMeditationComplete = () => {
+  const handleMeditationComplete = React.useCallback(() => {
     if (!avatar) return;
 
     const selectedType = meditationTypes.find(t => t.type === meditationType)!;
@@ -103,7 +103,7 @@ const MeditationCenter: React.FC = () => {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
-  };
+  }, [avatar, meditationTypes, meditationType, durations, selectedDuration, completeMeditation, updateGunas, addNotification]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;

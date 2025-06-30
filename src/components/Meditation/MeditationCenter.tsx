@@ -14,7 +14,7 @@ const MeditationCenter: React.FC = () => {
   const [breathPhase, setBreathPhase] = useState<'inhale' | 'hold' | 'exhale' | 'pause'>('inhale');
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const meditationTypes = [
+  const meditationTypes = React.useMemo(() => ([
     {
       type: 'breathing' as const,
       title: 'Pranayama',
@@ -43,16 +43,16 @@ const MeditationCenter: React.FC = () => {
       icon: '🧘‍♂️',
       benefits: { sattva: 9, focus: 11, peace: 10 }
     }
-  ];
+  ]), []);
 
-  const durations = [
+  const durations = React.useMemo(() => ([
     { minutes: 3, label: '3 min', difficulty: 1 },
     { minutes: 5, label: '5 min', difficulty: 2 },
     { minutes: 10, label: '10 min', difficulty: 3 },
     { minutes: 15, label: '15 min', difficulty: 4 },
     { minutes: 20, label: '20 min', difficulty: 5 },
     { minutes: 30, label: '30 min', difficulty: 6 }
-  ];
+  ]), []);
 
   // Breathing cycle timing (4-7-8 technique)
   const breathingCycle = React.useMemo(() => ({

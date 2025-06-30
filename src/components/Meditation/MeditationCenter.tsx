@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '../../store/gameStore';
 import { MeditationSession } from '../../types';
@@ -12,6 +12,7 @@ const MeditationCenter: React.FC = () => {
   const [meditationType, setMeditationType] = useState<'breathing' | 'mantra' | 'visualization' | 'mindfulness'>('breathing');
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [breathPhase, setBreathPhase] = useState<'inhale' | 'hold' | 'exhale' | 'pause'>('inhale');
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const meditationTypes = [
     {
@@ -61,6 +62,20 @@ const MeditationCenter: React.FC = () => {
     pause: 1000
   };
 
+  // Initialize audio on component mount
+  useEffect(() => {
+    audioRef.current = new Audio('/2 minutes of relaxing music,2 minute meditation music,2 minutes meditation,music 2 minute.mp3');
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.5;
+    
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
@@ -95,16 +110,45 @@ const MeditationCenter: React.FC = () => {
   const startMeditation = () => {
     setTimeLeft(selectedDuration * 60);
     setIsActive(true);
+    
+    // Play audio when meditation starts if sound is enabled
+    if (soundEnabled && audioRef.current) {
+      audioRef.current.play()
+        .then(() => console.log('Audio playing successfully'))
+        .catch(e => {
+          console.error('Audio play failed:', e);
+          // Try with the fallback audio element
+          const fallbackAudio = document.querySelector('audio');
+          if (fallbackAudio) {
+            fallbackAudio.play()
+              .then(() => console.log('Fallback audio playing'))
+              .catch(err => console.error('Fallback audio failed too:', err));
+          }
+        });
+    }
   };
 
   const pauseMeditation = () => {
     setIsActive(!isActive);
+    
+    // Pause or play audio based on meditation state
+    if (isActive && audioRef.current) {
+      audioRef.current.pause();
+    } else if (soundEnabled && audioRef.current) {
+      audioRef.current.play().catch(e => console.log('Audio play failed:', e));
+    }
   };
 
   const resetMeditation = () => {
     setIsActive(false);
     setTimeLeft(selectedDuration * 60);
     setBreathPhase('inhale');
+    
+    // Stop audio when meditation is reset
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
   };
 
   const handleMeditationComplete = () => {
@@ -127,6 +171,12 @@ const MeditationCenter: React.FC = () => {
     
     setIsActive(false);
     setTimeLeft(selectedDuration * 60);
+    
+    // Stop audio when meditation is complete
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
   };
 
   const formatTime = (seconds: number) => {
@@ -152,6 +202,8 @@ const MeditationCenter: React.FC = () => {
 
   return (
     <div className="min-h-screen pt-20 p-6">
+      {/* Hidden audio element as fallback */}
+      <audio src="/2 minutes of relaxing music,2 minute meditation music,2 minutes meditation,music 2 minute.mp3" loop preload="auto" style={{ display: 'none' }} />
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
@@ -259,7 +311,19 @@ const MeditationCenter: React.FC = () => {
                 </button>
 
                 <button
-                  onClick={() => setSoundEnabled(!soundEnabled)}
+                  onClick={() => {
+                    const newSoundState = !soundEnabled;
+                    setSoundEnabled(newSoundState);
+                    
+                    // Handle audio based on new sound state
+                    if (audioRef.current) {
+                      if (newSoundState && isActive) {
+                        audioRef.current.play().catch(e => console.log('Audio play failed:', e));
+                      } else {
+                        audioRef.current.pause();
+                      }
+                    }
+                  }}
                   className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50"
                 >
                   {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}

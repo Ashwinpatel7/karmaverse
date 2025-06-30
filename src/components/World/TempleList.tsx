@@ -34,7 +34,7 @@ const temples: Temple[] = [
   {
     id: 'badrinath',
     name: 'Badrinath Temple',
-    image: '/images/temples/badrinath.jpg',
+    image: '/images/temples/badrinath.webp',
     description: 'Sacred to Lord Vishnu, one of the Char Dham pilgrimage sites.',
     location: 'Uttarakhand, India',
     benefits: {
@@ -47,7 +47,7 @@ const temples: Temple[] = [
   {
     id: 'rameshwaram',
     name: 'Rameshwaram Temple',
-    image: '/images/temples/rameshwaram.jpg',
+    image: '/images/temples/rameshwaram.webp',
     description: 'Associated with Lord Rama and houses one of the twelve Jyotirlingas.',
     location: 'Tamil Nadu, India',
     benefits: {
@@ -60,7 +60,7 @@ const temples: Temple[] = [
   {
     id: 'dwarka',
     name: 'Dwarkadhish Temple',
-    image: '/images/temples/dwarka.jpg',
+    image: '/images/temples/Dwarka.jpg',
     description: 'Built where Krishna established his kingdom of Dwarka.',
     location: 'Gujarat, India',
     benefits: {
@@ -86,7 +86,7 @@ const temples: Temple[] = [
   {
     id: 'tirupati',
     name: 'Tirupati Balaji',
-    image: '/images/temples/tirupati.jpg',
+    image: '/images/default-temple.jpg', // Using default image since tirupati.jpg is missing
     description: 'One of the richest and most visited religious sites in the world.',
     location: 'Andhra Pradesh, India',
     benefits: {
@@ -189,6 +189,10 @@ const TempleList: React.FC<{ onClose: () => void, onVisit: (temple: Temple) => v
                     }}
                   />
                   <div className="absolute inset-0 flex items-center justify-center text-4xl fallback-icon hidden">
+                    🏛️
+                  </div>
+                  {/* Always show temple icon as overlay for consistency */}
+                  <div className="absolute top-2 right-2 bg-white/70 rounded-full p-1 text-xl">
                     🏛️
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
